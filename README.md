@@ -1,0 +1,56 @@
+[oi.index.txt](https://github.com/user-attachments/files/25532786/oi.index.txt)
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content:="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content"IE-edge">	
+    <title> Portiforio do Guilherme</title>
+</head>
+<body>
+
+     <div class="header">
+        <h1>Bem vindos a minha página<h1>
+        <p></p>
+     </div> 
+
+     <nav> 
+         <a href="sobre" target="_self">sobre</a>
+         <a href="projetos" target="_self">Projetos</a>
+         <a href="sobre" target="_self">Contato</a>
+     </nav>
+<div id="min>
+    <section id=Sobre">
+      <h4>sobre minha pessoa</h4>
+       <p>sou um aluno de engenharia da computação</p>
+        <p>sou composto por <strong> C & H<sub>2</sub>0 </strong></p>
+    </section>
+
+ <section id="Projetos">
+     <article>
+      <h5>Bob blocks: aventuras de códigos</h5>
+       <p>não pesquise isso</p>
+     </article>
+    </section>
+
+ <section id="contato">
+      <h2>sobre minha pessoa</h2>
+          <form>
+                <fielset>
+                   <legend>envie uma mensagem </legend>
+                   <lable> Nome <lable>
+                   <imput type="text" id="nome" name="nome"><br><br>
+
+                    lable> Nome <lable>
+                   <imput type="text" id="radio" name="nome"><br><br>
+                </fielset>
+          </form>
+    </section>
+</div>
+<footer>
+ <h5>feito</h5>
+</footer>
+>/body>
+</html>
+
