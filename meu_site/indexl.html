@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-compatible " content="IE9=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    <title> Classificão </title>
+
+ <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header, footer {
+            background-color: #635b5b;
+            color: rgb(0, 0, 0);
+            text-align: center;
+            padding: 15px;
+        }
+
+        nav {
+            	background-color: #66889c;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            margin: 10px;
+            text-decoration: none;
+        }
+
+        section {
+            padding: 20px;
+        }
+
+        article {
+            background-color: #2adb42;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        aside {
+            background-color: #4304b8;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid rgb(160, 41, 41);
+            padding: 8px;
+        }
+
+        .header {
+            background-color: #ff009d;
+        }
+
+        #main {
+            padding: 20px;
+        }
+
+        #footer {
+            background-color: #e4b2b2;
+            color: rgb(255, 166, 0);
+        }
+    </style>
+
+<body>
+<div class="header">
+<header>
+    <h1> cassificação </h1>
+    <p> Os tipos de classificação</p>
+</header>
+</div>
+
+<nav>
+    <a href="#selection sort" target="_self">selection sort</a>
+    <a href="#bubble sort" target="_self">bubble sort</a>
+    <a href="#busca binária" target="_self" title="busca binária">busca binária</a>
+   
+</nav>
+
+<div id="main">
+<section id="selection sort">
+  
+    <h2>Selection sort</h2>
+    <h4> selection sort consiste em pegar sempre o menor valor (ou o maior, dependendo do seu problema) e passar para a primeira posição. Depois, pegamos o segundo menor e colocamos na segunda posição e assim vai até ordenar os elementos.</h4>
+    <img src="sort.png" alt="">
+
+    <h2>bubble sort</h2>
+    <h4> tem por objetivo comparar os elementos dois a dois, empurrando o maior elemento para o fim da tabela.</h4>
+    <img src="bubble.png" alt="">
+
+    <h2>busca binária</h2>
+    <h4> A busca binária é um algoritmo eficiente de divisão e conquista para encontrar um item em uma lista ordenada.</h4>
+    <img src="bbinaria.png" alt="">  
+
+</section>
+
+
+<section id="avaliacao">
+    <h2>Avaliação do Conteúdo</h2>
+    <p>Sua opinião sobre os algoritmos de ordenação é muito importante!</p>
+    
+    <form action="#" method="post">
+        <fieldset>
+            <legend>Nos ajude a melhorar</legend>
+
+       
+            <label for="nota">Nota geral do conteúdo (1 a 5):</label><br>
+            <input type="number" id="nota" name="nota" min="1" max="5" required><br><br>
+
+           
+            <label>A explicação dos algoritmos foi clara?</label><br>
+            <input type="radio" id="clara-sim" name="clara" value="sim">
+            <label for="clara-sim">Sim</label>
+            <input type="radio" id="clara-parcial" name="clara" value="parcial">
+            <label for="clara-parcial">Parcialmente</label>
+            <input type="radio" id="clara-nao" name="clara" value="nao">
+            <label for="clara-nao">Não</label><br><br>
+
+          
+            <label>Qual algoritmo você mais gostou?</label><br>
+            <select name="algoritmo_favorito">
+                <option value="#selection sort">Selection Sort</option>
+                <option value="bubble">Bubble Sort</option>
+                <option value="binaria">Busca Binária</option>
+                <option value="nenhum">Nenhum</option>
+            </select><br><br>
+
+            
+            <label>O conteúdo foi útil para seus estudos?</label><br>
+            <input type="checkbox" id="util" name="util" checked>
+            <label for="util">Sim, muito útil</label><br><br>
+
+      
+            <label for="sugestao">Deixe sua sugestão de melhoria:</label><br>
+            <textarea id="sugestao" name="sugestao" rows="4" cols="40" placeholder="Ex: Colocar código em Java..."></textarea><br><br>
+
+            <button type="submit">Enviar Avaliação</button>
+        </fieldset>
+    </form>
+
+</div>
+
+</body>
+</html
+
+</html>
