@@ -13,65 +13,87 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #f4f4f4;
         }
 
-        header, footer {
+        header {
             background-color: #635b5b;
-            color: rgb(0, 0, 0);
+            color: rgb(255, 255, 255);
             text-align: center;
-            padding: 15px;
+            padding: 20px;
         }
 
         nav {
             	background-color: #66889c;
-            padding: 10px;
+            padding: 12px;
             text-align: center;
+           
         }
 
         nav a {
             color: white;
             margin: 10px;
             text-decoration: none;
+            font-weight: bold;
         }
+
+         nav a:hover {
+            text-decoration: underline;
+        }
+
 
         section {
             padding: 20px;
         }
 
         article {
-            background-color: #2adb42;
-            padding: 15px;
-            margin-bottom: 15px;
-        }
-
-        aside {
-            background-color: #4304b8;
-            padding: 10px;
-            margin-top: 10px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        table, th, td {
-            border: 1px solid rgb(160, 41, 41);
-            padding: 8px;
-        }
-
-        .header {
-            background-color: #ff009d;
-        }
-
-        #main {
+            background-color: white;
             padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        #footer {
-            background-color: #e4b2b2;
-            color: rgb(255, 166, 0);
+          article img {
+            max-width: 15%;
+            margin-top: 10px;
+  } form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
+
+        fieldset {
+            border: 1px solid #ccc;
+            padding: 15px;
+        }
+
+        legend {
+            font-weight: bold;
+        }
+
+        button {
+            background-color: #66889c;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #4f6d7a;
+        }
+
+        footer {
+            background-color: #635b5b;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
     </style>
 
 <body>
@@ -83,28 +105,47 @@
 </div>
 
 <nav>
-    <a href="#selection sort" target="_self">selection sort</a>
-    <a href="#bubble sort" target="_self">bubble sort</a>
-    <a href="#busca binária" target="_self" title="busca binária">busca binária</a>
+    <a href="./sort.png" target="_self">selection sort</a>
+    <a href="bubble.png" target="_self">bubble sort</a>
+    <a href="bbinaria.png" target="_self" title="busca binária">busca binária</a>
    
 </nav>
 
 <div id="main">
-<section id="selection sort">
+<section>
   
-    <h2>Selection sort</h2>
-    <h4> selection sort consiste em pegar sempre o menor valor (ou o maior, dependendo do seu problema) e passar para a primeira posição. Depois, pegamos o segundo menor e colocamos na segunda posição e assim vai até ordenar os elementos.</h4>
-    <img src="sort.png" alt="">
+    <article id="selection-sort">
+        <h2>Selection Sort</h2>
+        <p>
+            O Selection Sort consiste em selecionar o menor valor (ou o maior,
+            dependendo do problema) e colocá-lo na primeira posição. Depois,
+            seleciona-se o segundo menor e coloca-se na segunda posição,
+            repetindo o processo até ordenar todos os elementos.
+        </p>
+        <img src="sort.png" alt="Exemplo de Selection Sort">
+    </article>
 
-    <h2>bubble sort</h2>
-    <h4> tem por objetivo comparar os elementos dois a dois, empurrando o maior elemento para o fim da tabela.</h4>
-    <img src="bubble.png" alt="">
+    <article id="bubble-sort">
+        <h2>Bubble Sort</h2>
+        <p>
+            O Bubble Sort compara os elementos dois a dois, empurrando o maior
+            elemento para o final da lista a cada repetição.
+        </p>
+        <img src="bubble.png" alt="Exemplo de Bubble Sort">
+    </article>
 
-    <h2>busca binária</h2>
-    <h4> A busca binária é um algoritmo eficiente de divisão e conquista para encontrar um item em uma lista ordenada.</h4>
-    <img src="bbinaria.png" alt="">  
+    <article id="busca-binaria">
+        <h2>Busca Binária</h2>
+        <p>
+            A Busca Binária é um algoritmo eficiente de divisão e conquista
+            utilizado para encontrar um item em uma lista ordenada.
+        </p>
+        <img src="bbinaria.png" alt="Exemplo de Busca Binária">
+    </article>
 
 </section>
+
+
 
 
 <section id="avaliacao">
@@ -153,6 +194,6 @@
 </div>
 
 </body>
-</html
+
 
 </html>
