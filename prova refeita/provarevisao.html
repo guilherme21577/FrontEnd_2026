@@ -2,14 +2,15 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
     <title>Grupos e Fatos - Copa</title>
 </head>
 <body>
 
     <h1>Grupos e Fatos</h1>
 
-    <!-- Grupo A -->
-    <div id="grupoA">
+
+    <div id="grupoA" class="grupo">
         <h2>🅰️ Grupo A</h2>
         <h3>Seleções</h3>
         <ul>
@@ -18,7 +19,6 @@
             <li>Coreia do Sul</li>
             <li>República Tcheca</li>
         </ul>
-
         <details>
             <summary>Saiba mais</summary>
             <p>O jogo de abertura será México x África do Sul.</p>
@@ -26,8 +26,8 @@
         </details>
     </div>
 
-    <!-- Grupo B -->
-    <div id="grupoB">
+    
+    <div id="grupoB" class="grupo">
         <h2>🅱️ Grupo B</h2>
         <h3>Seleções</h3>
         <ul>
@@ -36,7 +36,6 @@
             <li>Catar</li>
             <li>Vaga Europeia (Bósnia)</li>
         </ul>
-
         <details>
             <summary>Saiba mais</summary>
             <p>O Canadá joga em casa, fator importante de desempenho.</p>
@@ -44,8 +43,8 @@
         </details>
     </div>
 
-    <!-- Grupo C -->
-    <div id="grupoC">
+   
+    <div id="grupoC" class="grupo">
         <h2>🅲 Grupo C</h2>
         <h3>Seleções</h3>
         <ul>
@@ -54,7 +53,6 @@
             <li>Haiti</li>
             <li>Escócia</li>
         </ul>
-
         <details>
             <summary>Saiba mais</summary>
             <p>Brasil, Marrocos e Escócia já dividiram grupo em 1998.</p>
@@ -62,5 +60,11 @@
         </details>
     </div>
 
+  
+    <div class="btn-wrap">
+        <button id="btn-next" onclick="proximoGrupo()">Próximo ▶</button>
+    </div>
+
+    <script src="java.js"></script>
 </body>
 </html>
