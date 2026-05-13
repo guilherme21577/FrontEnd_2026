@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validador de CPF - CORRIGIDO</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+        }
+
+        .input-group {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 18px 20px;
+            font-size: 1.4em;
+            border: 3px solid #ddd;
+            border-radius: 12px;
+            text-align: center;
+            letter-spacing: 4px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn-validar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            font-size: 1.2em;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-validar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .resultado {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 12px;
+            font-size: 1.3em;
+            font-weight: 600;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+        }
+
+        .resultado.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .resultado.valido {
+            background: #d4edda;
+            color: #155724;
+            border: 3px solid #c3e6cb;
+        }
+
+        .resultado.invalido {
+            background: #f8d7da;
+            color: #721c24;
+            border: 3px solid #f5c6cb;
+        }
+
+        .debug {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.9em;
+            text-align: left;
+            display: none;
+        }
+
+        .info {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Validador de CPF</h1>
+        
+        <div class="input-group">
+            <input type="text" id="cpfInput" placeholder="000.000.000-00" maxlength="14">
+        </div>
+        
+        <button class="btn-validar" onclick="validarCPF()">Validar CPF</button>
+        
+        <div id="resultado" class="resultado"></div>
+        <div id="debug" class="debug"></div>
+        
+        <div class="info">
+            💡 Teste: 529.982.247-25 (Válido) | 123.456.789-09 (Inválido)
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('cpfInput').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            value = value.replace(/(\d{3})(\d)/, '$1.$2');
+            value = value.replace(/(\d{3})(\d)/, '$1.$2');
+            value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+            e.target.value = value;
+        });
+
+        function validarCPF() {
+            const cpfInput = document.getElementById('cpfInput').value.replace(/\D/g, '');
+            const resultado = document.getElementById('resultado');
+            const debug = document.getElementById('debug');
+            
+            resultado.className = 'resultado';
+            debug.style.display = 'none';
+            
+            if (!cpfInput || cpfInput.length !== 11) {
+                mostrarResultado('CPF deve ter 11 dígitos!', 'invalido');
+                return;
+            }
+            
+            if (/^(\d)\1{10}$/.test(cpfInput)) {
+                mostrarResultado('CPF inválido! Não pode ter todos os dígitos iguais.', 'invalido');
+                return;
+            }
+            
+            // 🔧 LÓGICA CORRIGIDA - FÓRMULA OFICIAL DO CPF
+            const digito1 = calcularPrimeiroDigito(cpfInput.substring(0, 9));
+            const digito2 = calcularSegundoDigito(cpfInput.substring(0, 10));
+            
+            const cpfCalculado = cpfInput.substring(0, 9) + digito1 + digito2;
+            
+            debug.innerHTML = `
+                <strong>🔍 Cálculo Detalhado:</strong><br>
+                CPF digitado: ${cpfInput}<br>
+                1º DV calculado: ${digito1} (esperado: ${cpfInput[9]})<br>
+                2º DV calculado: ${digito2} (esperado: ${cpfInput[10]})<br>
+                CPF correto seria: ${cpfCalculado}
+            `;
+            debug.style.display = 'block';
+            
+            if (cpfInput === cpfCalculado) {
+                mostrarResultado('✅ CPF VÁLIDO!', 'valido');
+            } else {
+                mostrarResultado('❌ CPF INVÁLIDO!', 'invalido');
+            }
+        }
+        
+        // ✅ FÓRMULA CORRETA - 1º DÍGITO (pesos 10 a 2)
+        function calcularPrimeiroDigito(noveDigitos) {
+            let soma = 0;
+            for (let i = 0; i < 9; i++) {
+                soma += parseInt(noveDigitos[i]) * (10 - i);
+            }
+            let resto = soma % 11;
+            return resto < 2 ? 0 : 11 - resto;
+        }
+        
+        // ✅ FÓRMULA CORRETA - 2º DÍGITO (pesos 11 a 2)  
+        function calcularSegundoDigito(dezDigitos) {
+            let soma = 0;
+            for (let i = 0; i < 10; i++) {
+                soma += parseInt(dezDigitos[i]) * (11 - i);
+            }
+            let resto = soma % 11;
+            return resto < 2 ? 0 : 11 - resto;
+        }
+        
+        function mostrarResultado(mensagem, tipo) {
+            const resultado = document.getElementById('resultado');
+            resultado.textContent = mensagem;
+            resultado.className = `resultado ${tipo} show`;
+        }
+        
+        document.getElementById('cpfInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') validarCPF();
+        });
+    </script>
+</body>
+</html>
