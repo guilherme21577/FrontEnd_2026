@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏦 Infinity Bank - Simulador de Taxas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 3rem;
+            border-radius: 25px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1e3c72;
+            margin-bottom: 2.5rem;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.8rem;
+            color: #333;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #2a5298;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(42, 82, 152, 0.1);
+        }
+
+        .inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        #btnCalcular {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(45deg, #2a5298, #1e3c72);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        #btnCalcular:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px rgba(42, 82, 152, 0.4);
+        }
+
+        /* RESULTADO */
+        .resultado {
+            margin-top: 3rem;
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            animation: slideIn 0.7s ease-out;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .oculto {
+            display: none;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(40px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .resumo {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-left: 5px solid #2a5298;
+        }
+
+        .card h4 {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card .valor {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1e3c72;
+        }
+
+        .total {
+            border-left-color: #28a745 !important;
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+        }
+
+        .parcela {
+            border-left-color: #007bff !important;
+            background: linear-gradient(135deg, #cce7ff 0%, #b3d9ff 100%);
+        }
+
+        #vendaTotal {
+            font-size: 2.5rem !important;
+            color: #28a745 !important;
+        }
+
+        @media (max-width: 700px) {
+            .inputs {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .container {
+                padding: 2rem;
+                margin: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏦 Infinity Bank</h1>
+        <h2 style="text-align: center; color: #666; margin-bottom: 2rem;">Simulador de Taxas de Cartão</h2>
+        
+        <form id="formSimulador">
+            <div class="inputs">
+                <!-- BANDEIRA -->
+                <div class="form-group">
+                    <label for="bandeira">💳 Bandeira do Cartão:</label>
+                    <select id="bandeira" required>
+                        <option value="">Selecione...</option>
+                        <option value="visa">Visa (2%)</option>
+                        <option value="master">Mastercard (1.85%)</option>
+                        <option value="elo">Elo (3%)</option>
+                    </select>
+                </div>
+                
+                <!-- VALOR VENDA -->
+                <div class="form-group">
+                    <label for="valorVenda">💰 Valor da Venda (R$):</label>
+                    <input type="number" id="valorVenda" min="1" step="0.01" placeholder="1000.00" required>
+                </div>
+            </div>
+            
+            <!-- PARCELAS -->
+            <div class="form-group">
+                <label for="parcelas">📅 Número de Parcelas:</label>
+                <input type="number" id="parcelas" min="1" max="12" placeholder="6" required>
+            </div>
+            
+            <button type="submit" id="btnCalcular">🔢 Calcular Taxas</button>
+        </form>
+        
+        <!-- RESULTADO -->
+        <div id="resultado" class="resultado oculto">
+            <h3 id="tituloResultado"></h3>
+            <div class="resumo" id="resumoCards"></div>
+        </div>
+    </div>
+
+    <script>
+        /* JAVASCRIPT COMPLETO - LÓGICA FINANCEIRA */
+        document.getElementById('formSimulador').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // 📥 Captura dados
+            const bandeira = document.getElementById('bandeira').value;
+            const valorVenda = Number(document.getElementById('valorVenda').value);
+            const parcelas = Number(document.getElementById('parcelas').value);
+            
+            // 🏦 SWITCH para taxa da bandeira
+            let taxaBandeiraPercentual;
+            switch(bandeira) {
+                case 'visa':
+                    taxaBandeiraPercentual = 0.02;    // 2%
+                    break;
+                case 'master':
+                    taxaBandeiraPercentual = 0.0185;  // 1.85%
+                    break;
+                case 'elo':
+                    taxaBandeiraPercentual = 0.03;    // 3%
+                    break;
+                default:
+                    alert('Selecione uma bandeira!');
+                    return;
+            }
+            
+            // 🧮 CÁLCULOS FINANCEIROS
+            const taxaBandeira = valorVenda * taxaBandeiraPercentual;
+            const jurosTotais = valorVenda * 0.0035 * parcelas;  // 0.35% ao mês
+            const taxaMensal = 12.50 * parcelas;                 // R$12,50/mês
+            const valorTotal = valorVenda + taxaBandeira + jurosTotais + taxaMensal;
+            const valorParcela = valorTotal / parcelas;
+            
+            // 📊 Exibe título
+            const nomeBandeira = bandeira.charAt(0).toUpperCase() + bandeira.slice(1);
+            document.getElementById('tituloResultado').innerHTML = `
+                <strong>${nomeBandeira}</strong> • ${parcelas}x • R$ ${valorVenda.toFixed(2)}
+            `;
+            
+            // 🃏 Cards do resumo
+            document.getElementById('resumoCards').innerHTML = `
+                <div class="card">
+                    <h4>Taxa Bandeira</h4>
+                    <div class="valor">R$ ${taxaBandeira.toFixed(2)}</div>
+                </div>
+                <div class="card">
+                    <h4>Juros Totais</h4>
+                    <div class="valor">R$ ${jurosTotais.toFixed(2)}</div>
+                </div>
+                <div class="card">
+                    <h4>Taxa Mensal</h4>
+                    <div class="valor">R$ ${taxaMensal.toFixed(2)}</div>
+                </div>
+                <div class="card total">
+                    <h4>Valor Total</h4>
+                    <div class="valor" id="vendaTotal">R$ ${valorTotal.toFixed(2)}</div>
+                </div>
+                <div class="card parcela">
+                    <h4>Valor da Parcela</h4>
+                    <div class="valor">R$ ${valorParcela.toFixed(2)}</div>
+                </div>
+            `;
+            
+            // 👁️ Mostra resultado
+            document.getElementById('resultado').classList.remove('oculto');
+            document.getElementById('resultado').scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>

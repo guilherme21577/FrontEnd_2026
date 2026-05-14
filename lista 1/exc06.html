@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎊 Infinity Bank - Crédito Eventos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(25px);
+            padding: 4rem 3rem;
+            border-radius: 35px;
+            box-shadow: 0 40px 90px rgba(255, 154, 158, 0.3);
+            max-width: 750px;
+            width: 100%;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            font-size: 3rem;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 3.5rem;
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+
+        .form-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 1rem;
+            color: #333;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        select, input {
+            padding: 20px 24px;
+            border: 2px solid #f3f4f6;
+            border-radius: 20px;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, #fdfdfd 0%, #f8fafc 100%);
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #ff6b6b;
+            box-shadow: 0 0 0 5px rgba(255, 107, 107, 0.1);
+            transform: translateY(-2px);
+        }
+
+        #btnCalcular {
+            grid-column: 1 / -1;
+            padding: 24px;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.6rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+        }
+
+        #btnCalcular:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 45px rgba(255, 107, 107, 0.6);
+        }
+
+        /* RESULTADO */
+        .resultado {
+            background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 100%);
+            border-radius: 25px;
+            padding: 3rem;
+            margin-top: 3rem;
+            border: 3px solid #fed7aa;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .resultado.mostrar {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .pacote-info {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .pacote-nome {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ff6b6b;
+            margin-bottom: 0.5rem;
+        }
+
+        .pacote-valor {
+            font-size: 1.4rem;
+            color: #666;
+        }
+
+        .detalhamento {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .detalhe {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .detalhe:hover {
+            transform: translateY(-5px);
+        }
+
+        .detalhe-label {
+            color: #6b7280;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.8rem;
+        }
+
+        .detalhe-valor {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .desconto {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+            color: white !important;
+        }
+
+        .total-final {
+            background: linear-gradient(135deg, #ff6b6b, #ef4444) !important;
+            color: white !important;
+            grid-column: 1 / -1;
+            transform: scale(1.05);
+        }
+
+        .oculto {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .form-section {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .container {
+                padding: 2.5rem 2rem;
+                margin: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎊 Crédito Eventos</h1>
+        <p class="subtitle">Orçamento Instantâneo para Festas & Eventos Corporativos</p>
+        
+        <!-- FORMULÁRIO -->
+        <form id="formOrcamento" class="form-section">
+            <div class="form-group">
+                <label for="pacote">✨ Pacote de Serviço:</label>
+                <select id="pacote" required>
+                    <option value="">Selecione o pacote...</option>
+                    <option value="standard" data-preco="50">Standard - R$ 50/pessoa</option>
+                    <option value="premium" data-preco="80">Premium - R$ 80/pessoa</option>
+                    <option value="deluxe" data-preco="120">Infinity Deluxe - R$ 120/pessoa</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="pessoas">👥 Quantidade de Pessoas:</label>
+                <input type="number" id="pessoas" min="1" max="500" placeholder="150" required>
+            </div>
+            
+            <button type="submit" id="btnCalcular">💰 Calcular Orçamento Completo</button>
+        </form>
+        
+        <!-- RESULTADO -->
+        <div id="resultado" class="resultado oculto">
+            <div class="pacote-info">
+                <div class="pacote-nome" id="pacoteSelecionado"></div>
+                <div class="pacote-valor" id="precoPorPessoa"></div>
+            </div>
+            
+            <div class="detalhamento" id="detalhamento">
+                <!-- Valores calculados aqui -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* JAVASCRIPT COMPLETO - CÁLCULO FINANCEIRO */
+        
+        document.getElementById('formOrcamento').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 📥 Captura dados
+            const pacote = document.getElementById('pacote');
+            const pessoas = Number(document.getElementById('pessoas').value);
+            const pacoteSelecionado = pacote.options[pacote.selectedIndex];
+            const precoPorPessoa = Number(pacoteSelecionado.dataset.preco);
+            
+            // 🧮 CÁLCULOS
+            const custoBruto = precoPorPessoa * pessoas;
+            const taxaServico = custoBruto * 0.10;
+            const subtotal = custoBruto + taxaServico;
+            
+            let desconto = 0;
+            let totalFinal = subtotal;
+            
+            if (pessoas > 100) {
+                desconto = subtotal * 0.05;
+                totalFinal = subtotal - desconto;
+            }
+            
+            // 📊 Exibe pacote
+            document.getElementById('pacoteSelecionado').textContent = 
+                pacoteSelecionado.textContent.toUpperCase();
+            document.getElementById('precoPorPessoa').textContent = 
+                `R$ ${precoPorPessoa.toFixed(2)} por pessoa`;
+            
+            // 🏗️ Detalhamento
+            document.getElementById('detalhamento').innerHTML = `
+                <div class="detalhe">
+                    <div class="detalhe-label">Custo Bruto</div>
+                    <div class="detalhe-valor">R$ ${custoBruto.toFixed(2)}</div>
+                </div>
+                <div class="detalhe">
+                    <div class="detalhe-label">Taxa de Serviço (10%)</div>
+                    <div class="detalhe-valor">R$ ${taxaServico.toFixed(2)}</div>
+                </div>
+                ${desconto > 0 ? `
+                    <div class="detalhe desconto">
+                        <div class="detalhe-label">Desconto Fidelidade (5%)</div>
+                        <div class="detalhe-valor">- R$ ${desconto.toFixed(2)}</div>
+                    </div>
+                ` : ''}
+                <div class="detalhe total-final">
+                    <div class="detalhe-label">💎 TOTAL FINAL</div>
+                    <div class="detalhe-valor">R$ ${totalFinal.toFixed(2)}</div>
+                </div>
+            `;
+            
+            // 👁️ Anima resultado
+            const resultado = document.getElementById('resultado');
+            resultado.classList.remove('oculto');
+            setTimeout(() => resultado.classList.add('mostrar'), 10);
+            
+            // 📱 Scroll suave
+            resultado.scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>

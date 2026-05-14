@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎉 Infinity Bank - Convidados VIP</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 3rem;
+            border-radius: 30px;
+            box-shadow: 0 35px 80px rgba(0,0,0,0.25);
+            max-width: 700px;
+            width: 100%;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 2.8rem;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 3rem;
+            font-size: 1.2rem;
+        }
+
+        .input-section {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        #nomeInput {
+            flex: 1;
+            padding: 18px 24px;
+            border: 2px solid #e0e6ed;
+            border-radius: 15px;
+            font-size: 1.3rem;
+            background: #f8fafc;
+            min-width: 300px;
+            transition: all 0.3s ease;
+        }
+
+        #nomeInput:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            background: white;
+        }
+
+        #btnAdicionar {
+            padding: 18px 32px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        #btnAdicionar:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        #btnAdicionar:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* LISTA */
+        .lista-section {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            min-height: 200px;
+        }
+
+        .lista-section h3 {
+            margin-bottom: 1.5rem;
+            color: #333;
+            font-size: 1.5rem;
+        }
+
+        #listaConvidados {
+            list-style: none;
+        }
+
+        .convidado-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border-left: 5px solid #667eea;
+        }
+
+        .convidado-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .convidado-item.riscado {
+            border-left-color: #10b981;
+            opacity: 0.7;
+        }
+
+        .nome-convidado {
+            flex: 1;
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .nome-convidado.riscado {
+            text-decoration: line-through;
+            color: #6b7280;
+        }
+
+        .botoes {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-concluir {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-editar {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .btn-excluir {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 1.2rem;
+            padding: 3rem;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        @media (max-width: 600px) {
+            .input-section {
+                flex-direction: column;
+            }
+            
+            .convidado-item {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .botoes {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎉 Convidados VIP</h1>
+        <p class="subtitle">Infinity Bank - Evento de Inauguração</p>
+        
+        <!-- INPUT -->
+        <div class="input-section">
+            <input 
+                type="text" 
+                id="nomeInput" 
+                placeholder="Digite o nome do convidado VIP..."
+                maxlength="50"
+            >
+            <button id="btnAdicionar">➕ Adicionar</button>
+        </div>
+        
+        <!-- LISTA -->
+        <div class="lista-section">
+            <h3>📋 Lista de Convidados (<span id="totalConvidados">0</span>)</h3>
+            
+            <ul id="listaConvidados">
+                <li class="empty-state">
+                    👆 Adicione o primeiro convidado clicando em "Adicionar"!
+                </li>
+            </ul>
+            
+            <!-- ESTATÍSTICAS -->
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number" id="totalPresentes">0</div>
+                    <div>Presentes</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" id="totalAusentes">0</div>
+                    <div>Ausentes</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* JAVASCRIPT COMPLETO - GESTÃO DE CONVIDADOS */
+        
+        // 📊 Arrays e variáveis
+        let convidados = [];
+        let editandoIndex = -1;
+        
+        // 🎯 Elementos DOM
+        const nomeInput = document.getElementById('nomeInput');
+        const btnAdicionar = document.getElementById('btnAdicionar');
+        const listaConvidados = document.getElementById('listaConvidados');
+        const totalConvidadosEl = document.getElementById('totalConvidados');
+        const totalPresentesEl = document.getElementById('totalPresentes');
+        const totalAusentesEl = document.getElementById('totalAusentes');
+        
+        // ➕ ADICIONAR/EDITAR
+        btnAdicionar.addEventListener('click', adicionarConvidado);
+        nomeInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') adicionarConvidado();
+        });
+        
+        function adicionarConvidado() {
+            const nome = nomeInput.value.trim();
+            
+            if (!nome) {
+                nomeInput.focus();
+                return;
+            }
+            
+            if (editandoIndex >= 0) {
+                // ✏️ EDITAR
+                convidados[editandoIndex].nome = nome;
+                convidados[editandoIndex].presente = false;
+                editandoIndex = -1;
+                btnAdicionar.textContent = '➕ Adicionar';
+            } else {
+                // ➕ NOVO
+                convidados.push({
+                    nome: nome,
+                    presente: false
+                });
+            }
+            
+            // 🔄 Atualiza lista e limpa input
+            renderizarLista();
+            nomeInput.value = '';
+            nomeInput.focus();
+        }
+        
+        // 🔄 RENDERIZAR LISTA
+        function renderizarLista() {
+            if (convidados.length === 0) {
+                listaConvidados.innerHTML = `
+                    <li class="empty-state">
+                        👆 Adicione o primeiro convidado clicando em "Adicionar"!
+                    </li>
+                `;
+                atualizarEstatisticas();
+                return;
+            }
+            
+            listaConvidados.innerHTML = convidados.map((convidado, index) => `
+                <li class="convidado-item ${convidado.presente ? 'riscado' : ''}" data-index="${index}">
+                    <span class="nome-convidado ${convidado.presente ? 'riscado' : ''}">
+                        ${convidado.nome}
+                    </span>
+                    <div class="botoes">
+                        <button class="btn btn-concluir" onclick="togglePresenca(${index})">
+                            ${convidado.presente ? '↩️ Desmarcar' : '✅ Concluir'}
+                        </button>
+                        <button class="btn btn-editar" onclick="editarConvidado(${index})">
+                            ✏️ Editar
+                        </button>
+                        <button class="btn btn-excluir" onclick="excluirConvidado(${index})">
+                            🗑️ Excluir
+                        </button>
+                    </div>
+                </li>
+            `).join('');
+            
+            atualizarEstatisticas();
+        }
+        
+        // ✅ TOGGLE PRESENÇA
+        function togglePresenca(index) {
+            convidados[index].presente = !convidados[index].presente;
+            renderizarLista();
+        }
+        
+        // ✏️ EDITAR
+        function editarConvidado(index) {
+            editandoIndex = index;
+            nomeInput.value = convidados[index].nome;
+            nomeInput.focus();
+            btnAdicionar.textContent = '💾 Salvar Alteração';
+            nomeInput.setSelectionRange(nomeInput.value.length, nomeInput.value.length);
+        }
+        
+        // 🗑️ EXCLUIR
+        function excluirConvidado(index) {
+            if (confirm(`Excluir "${convidados[index].nome}"?`)) {
+                convidados.splice(index, 1);
+                renderizarLista();
+            }
+        }
+        
+        // 📊 ESTATÍSTICAS
+        function atualizarEstatisticas() {
+            totalConvidadosEl.textContent = convidados.length;
+            const presentes = convidados.filter(c => c.presente).length;
+            totalPresentesEl.textContent = presentes;
+            totalAusentesEl.textContent = convidados.length - presentes;
+        }
+        
+        // ⌨️ Enter funciona
+        nomeInput.focus();
+    </script>
+</body>
+</html>

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔒 Card Guard - Validador Infinity</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #e2e8f0;
+        }
+
+        .container {
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(30px);
+            padding: 4rem 3.5rem;
+            border-radius: 30px;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.5);
+            max-width: 650px;
+            width: 100%;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 3.5rem;
+            font-size: 1.2rem;
+        }
+
+        .input-section {
+            position: relative;
+            margin-bottom: 3.5rem;
+        }
+
+        #numeroCartao {
+            width: 100%;
+            padding: 24px 28px;
+            background: rgba(30, 30, 46, 0.6);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 20px;
+            font-size: 1.6rem;
+            font-family: 'Courier New', monospace;
+            color: #e2e8f0;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+        }
+
+        #numeroCartao:focus {
+            outline: none;
+            border-color: #00d4ff;
+            box-shadow: 0 0 0 4px rgba(0, 212, 255, 0.2);
+            background: rgba(30, 30, 46, 0.8);
+        }
+
+        #btnAnalisar {
+            width: 100%;
+            padding: 24px;
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 1rem;
+        }
+
+        #btnAnalisar:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 45px rgba(0, 212, 255, 0.4);
+        }
+
+        #btnAnalisar:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* RESULTADO */
+        .resultado {
+            background: rgba(30, 30, 46, 0.8);
+            border-radius: 25px;
+            padding: 3rem;
+            margin-top: 3rem;
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            opacity: 0;
+            transform: scale(0.95) translateY(20px);
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .resultado.mostrar {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        .status {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 2.5rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .status.valido {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border: 2px solid rgba(16, 185, 129, 0.5);
+        }
+
+        .status.invalido {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 2px solid rgba(239, 68, 68, 0.5);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .info-card {
+            background: rgba(45, 45, 70, 0.6);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            background: rgba(45, 45, 70, 0.8);
+        }
+
+        .info-label {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.8rem;
+        }
+
+        .info-valor {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #00d4ff;
+        }
+
+        .bin-highlight {
+            background: rgba(0, 212, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.4rem;
+            margin: 0.5rem 0;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 2.5rem 2rem;
+                margin: 10px;
+            }
+            
+            #numeroCartao {
+                font-size: 1.4rem;
+                letter-spacing: 1px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔒 Card Guard</h1>
+        <p class="subtitle">Validador Avançado com Algoritmo de Luhn + Análise BIN/IIN</p>
+        
+        <div class="input-section">
+            <input 
+                type="text" 
+                id="numeroCartao" 
+                placeholder="4539 1488 0343 6467"
+                maxlength="19"
+                inputmode="numeric"
+            >
+            <button id="btnAnalisar">🛡️ Analisar Cartão</button>
+        </div>
+        
+        <!-- RESULTADO -->
+        <div id="resultado" class="resultado">
+            <div id="status" class="status"></div>
+            <div class="info-grid" id="infoGrid"></div>
+        </div>
+    </div>
+
+    <script>
+        /* 🔐 ALGORITMO DE LUHN + BIN/IIN COMPLETO */
+        
+        document.getElementById('btnAnalisar').addEventListener('click', analisarCartao);
+        
+        document.getElementById('numeroCartao').addEventListener('input', function() {
+            // Formatação visual automática
+            let valor = this.value.replace(/\D/g, '');
+            valor = valor.replace(/(\d{4})(?=\d)/g, '$1 ');
+            this.value = valor;
+        });
+        
+        document.getElementById('numeroCartao').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') analisarCartao();
+        });
+        
+        function analisarCartao() {
+            const numeroInput = document.getElementById('numeroCartao').value.replace(/\D/g, '');
+            
+            // 1️⃣ Validação básica
+            if (numeroInput.length < 13 || numeroInput.length > 19) {
+                mostrarErro('Número deve ter 13-19 dígitos');
+                return;
+            }
+            
+            // 2️⃣ Algoritmo de Luhn
+            const valido = algoritmoLuhn(numeroInput);
+            
+            // 3️⃣ Análise BIN/IIN
+            const bin = numeroInput.substring(0, 6);
+            const iin = numeroInput.substring(0, 8);
+            const analise = analisarBIN(bin, iin);
+            
+            // 4️⃣ Exibe resultado
+            exibirResultado(valido, numeroInput, analise);
+        }
+        
+        // 🧮 ALGORITMO DE LUHN
+        function algoritmoLuhn(numero) {
+            const digitos = numero.split('').map(Number).reverse();
+            
+            let soma = 0;
+            for (let i = 0; i < digitos.length; i++) {
+                let digito = digitos[i];
+                
+                // Posições pares (0-based, da direita)
+                if (i % 2 === 1) {
+                    digito *= 2;
+                    if (digito > 9) digito -= 9;
+                }
+                
+                soma += digito;
+            }
+            
+            return soma % 10 === 0;
+        }
+        
+        // 🏦 ANÁLISE BIN/IIN
+        function analisarBIN(bin, iin) {
+            // Bandeira
+            let bandeira = 'Desconhecida';
+            if (bin.startsWith('4')) bandeira = 'Visa';
+            else if (bin.startsWith('5')) bandeira = 'Mastercard';
+            else if (bin.startsWith('3') && (bin.startsWith('34') || bin.startsWith('37'))) bandeira = 'American Express';
+            else if (bin.startsWith('6')) bandeira = 'Discover';
+            
+            // Setor (Dígito 1)
+            const setor = parseInt(iin[0]);
+            let setorDesc = 'Outro';
+            if (setor === 4) setorDesc = 'Financeiro/Bancário';
+            else if (setor === 3) setorDesc = 'Viagens/Entretenimento';
+            
+            // Banco (simplificado)
+            const banco = obterBanco(bin);
+            
+            return {
+                bandeira,
+                bin,
+                iin,
+                setor: setorDesc,
+                banco
+            };
+        }
+        
+        function obterBanco(bin) {
+            const bancos = {
+                '453914': 'Banco Itaú',
+                '453911': 'Banco Bradesco',
+                '400000': 'Banco do Brasil',
+                '555566': 'Nubank Mastercard'
+            };
+            return bancos[bin] || 'Banco Genérico';
+        }
+        
+        // 📊 EXIBIR RESULTADO
+        function exibirResultado(valido, numeroLimpo, analise) {
+            const resultado = document.getElementById('resultado');
+            const status = document.getElementById('status');
+            const infoGrid = document.getElementById('infoGrid');
+            
+            // Status
+            status.textContent = valido ? '✅ CARTÃO VÁLIDO' : '❌ CARTÃO INVÁLIDO';
+            status.className = `status ${valido ? 'valido' : 'invalido'}`;
+            
+            // Informações
+            infoGrid.innerHTML = `
+                <div class="info-card">
+                    <div class="info-label">Status Luhn</div>
+                    <div class="info-valor">${valido ? '✅ Válido' : '❌ Inválido'}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Bandeira</div>
+                    <div class="info-valor">${analise.bandeira}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">BIN (6 dígitos)</div>
+                    <div class="bin-highlight">${analise.bin}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">IIN (8 dígitos)</div>
+                    <div class="bin-highlight">${analise.iin}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Setor Industrial</div>
+                    <div class="info-valor">${analise.setor}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Banco Emissor</div>
+                    <div class="info-valor">${analise.banco}</div>
+                </div>
+            `;
+            
+            // Animação
+            resultado.classList.remove('oculto');
+            setTimeout(() => resultado.classList.add('mostrar'), 10);
+            resultado.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function mostrarErro(mensagem) {
+            const resultado = document.getElementById('resultado');
+            resultado.innerHTML = `
+                <div style="text-align: center; padding: 2rem; color: #ef4444;">
+                    <div style="font-size: 1.5rem; margin-bottom: 1rem;">⚠️ ${mensagem}</div>
+                    <div style="font-size: 1rem; opacity: 0.8;">Exemplo: 4539 1488 0343 6467</div>
+                </div>
+            `;
+            resultado.classList.remove('oculto');
+            resultado.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
